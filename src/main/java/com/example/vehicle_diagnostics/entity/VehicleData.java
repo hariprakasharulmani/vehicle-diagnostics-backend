@@ -1,6 +1,7 @@
 package com.example.vehicle_diagnostics.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Entity
@@ -11,10 +12,25 @@ public class VehicleData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double speed;
-    private double batterySoc;
-    private double tyrePressure;
-    private double engineTemp;
+    @NotNull
+    @Min(0)
+    @Max(200)
+    private Double speed;
+
+    @NotNull
+    @Min(0)
+    @Max(100)
+    private Double batterySoc;
+
+    @NotNull
+    @Min(0)
+    @Max(100)
+    private Double tyrePressure;
+
+    @NotNull
+    @Min(0)
+    @Max(200)
+    private Double engineTemp;
 
     private String healthStatus;
 }

@@ -1,6 +1,9 @@
 package com.example.vehicle_diagnostics.controller;
+
 import java.util.List;
 import java.util.Map;
+
+import jakarta.validation.Valid;
 
 import com.example.vehicle_diagnostics.entity.VehicleData;
 import com.example.vehicle_diagnostics.service.VehicleService;
@@ -15,12 +18,12 @@ public class VehicleController {
     public VehicleController(VehicleService vehicleService) {
         this.vehicleService = vehicleService;
     }
+
     @PostMapping("/predict")
-    public Map<String, String> predictRisk(@RequestBody VehicleData data) {
+    public Map<String, String> predictRisk(@Valid @RequestBody VehicleData data) {
         String prediction = vehicleService.predictFailureRisk(data);
         return Map.of("prediction", prediction);
     }
-
 
     @GetMapping
     public List<VehicleData> getAllVehicles() {
@@ -28,7 +31,7 @@ public class VehicleController {
     }
 
     @PostMapping
-    public VehicleData addVehicleData(@RequestBody VehicleData data) {
+    public VehicleData addVehicleData(@Valid @RequestBody VehicleData data) {
         return vehicleService.saveVehicleData(data);
     }
 }
