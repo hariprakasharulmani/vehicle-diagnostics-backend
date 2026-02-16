@@ -1,0 +1,40 @@
+package com.example.vehicle_diagnostics.controller;
+
+import java.util.List;
+import java.util.Map;
+
+import jakarta.validation.Valid;
+
+import com.example.vehicle_diagnostics.entity.VehicleData;
+import com.example.vehicle_diagnostics.service.VehicleService;
+import org.springframework.web.bind.annotation.*;
+
+//@CrossOrigin(origins = "https://vehicle-diagnostics-frontend-s4ud.onrender.com")
+
+//@CrossOrigin(origins = "*")
+@RestController
+@RequestMapping("/api/vehicles")
+public class VehicleController {
+
+    private final VehicleService vehicleService;
+
+    public VehicleController(VehicleService vehicleService) {
+        this.vehicleService = vehicleService;
+    }
+
+    @PostMapping("/predict")
+    public Map<String, String> predictRisk(@Valid @RequestBody VehicleData data) {
+        String prediction = vehicleService.predictFailureRisk(data);
+        return Map.of("prediction", prediction);
+    }
+
+    @GetMapping
+    public List<VehicleData> getAllVehicles() {
+        return vehicleService.getAllVehicles();
+    }
+
+    @PostMapping
+    public VehicleData addVehicleData(@Valid @RequestBody VehicleData data) {
+        return vehicleService.saveVehicleData(data);
+    }
+}
