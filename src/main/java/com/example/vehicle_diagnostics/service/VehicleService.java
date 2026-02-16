@@ -16,20 +16,28 @@ public class VehicleService {
 
         String prediction;
 
-        if (data.getEngineTemp() > 100 || data.getBatterySoc() < 20) {
-            prediction = "HIGH RISK";
-        } else {
+        if (data.getEngineTemp() > 120) {
+            prediction = "ENGINE OVERHEAT";
+        }
+        else if (data.getBatterySoc() < 20) {
+            prediction = "BATTERY LOW";
+        }
+        else if (data.getTyrePressure() < 20) {
+            prediction = "TYRE PRESSURE LOW";
+        }
+        else if (data.getSpeed() > 150) {
+            prediction = "OVERSPEED RISK";
+        }
+        else {
             prediction = "LOW RISK";
         }
 
-        // 🔥 IMPORTANT PART
         data.setHealthStatus(prediction);
-
-        // Save to database
         vehicleRepository.save(data);
 
         return prediction;
     }
+
 
 
     public VehicleData saveVehicleData(VehicleData data) {
